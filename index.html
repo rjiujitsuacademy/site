@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raion Jiu Jitsu Academy | Prof. João Madureira</title>
+    <!-- Google Fonts & FontAwesome para ícones -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #0a0b0e;
+            --bg-card: #14161b;
+            --silver-light: #e0e2e8;
+            --silver-grad: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%);
+            --neon-blue: #00f0ff;
+            --neon-glow: 0 0 15px rgba(0, 240, 255, 0.4);
+            --accent-silver: #c0c0c0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--silver-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .brand-font {
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* HEADER & NAVBAR */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 11, 14, 0.95);
+            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-area h1 {
+            font-size: 1.5rem;
+            color: #fff;
+            text-shadow: var(--neon-glow);
+        }
+
+        .logo-area span {
+            color: var(--neon-blue);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            color: var(--accent-silver);
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+        }
+
+        nav ul li a:hover {
+            color: var(--neon-blue);
+            text-shadow: var(--neon-glow);
+        }
+
+        /* CARROUSSEL DE SLIDES (SLIDER) */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 85vh;
+            margin-top: 70px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(10,11,14,0.4), rgba(10,11,14,0.95));
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .slide-content h2 {
+            font-size: 3.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+        }
+
+        .slide-content p {
+            font-size: 1.2rem;
+            color: var(--accent-silver);
+            margin-bottom: 30px;
+        }
+
+        .btn-neon {
+            display: inline-block;
+            padding: 12px 35px;
+            background: transparent;
+            color: var(--neon-blue);
+            border: 2px solid var(--neon-blue);
+            border-radius: 4px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            text-transform: uppercase;
+            box-shadow: var(--neon-glow);
+            transition: 0.3s;
+        }
+
+        .btn-neon:hover {
+            background: var(--neon-blue);
+            color: var(--bg-dark);
+            box-shadow: 0 0 25px var(--neon-blue);
+        }
+
+        /* CONTROLES DO SLIDER */
+        .slider-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dot.active {
+            background: var(--neon-blue);
+            box-shadow: var(--neon-glow);
+        }
+
+        /* SEÇÕES DE DESTAQUE (ESTILO ENIGMA) */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: -80px auto 80px auto;
+            position: relative;
+            z-index: 20;
+            padding: 0 20px;
+        }
+
+        .feature-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(192, 192, 192, 0.15);
+            padding: 40px 30px;
+            text-align: center;
+            border-radius: 8px;
+            transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .feature-box:hover {
+            border-color: var(--neon-blue);
+            box-shadow: var(--neon-glow);
+            transform: translateY(-5px);
+        }
+
+        .feature-box i {
+            font-size: 3rem;
+            color: var(--neon-blue);
+            margin-bottom: 20px;
+            text-shadow: var(--neon-glow);
+        }
+
+        .feature-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .feature-box p {
+            color: var(--accent-silver);
+            font-size: 0.95rem;
+        }
+
+        /* SOBRE A ACADEMIA */
+        .about-section {
+            max-width: 1100px;
+            margin: 100px auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+            border-left: 4px solid var(--neon-blue);
+            padding-left: 15px;
+        }
+
+        .about-text p {
+            color: var(--accent-silver);
+            margin-bottom: 20px;
+        }
+
+        .about-image {
+            flex: 1;
+            text-align: center;
+            background: linear-gradient(135deg, #14161b, #000);
+            border: 2px solid rgba(0, 240, 255, 0.3);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: var(--neon-glow);
+        }
+
+        .about-image i {
+            font-size: 8rem;
+            color: var(--neon-blue);
+            text-shadow: var(--neon-glow);
+        }
+
+        /* RODAPÉ */
+        footer {
+            background: #050608;
+            border-top: 1px solid rgba(0, 240, 255, 0.2);
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--accent-silver);
+            font-size: 0.9rem;
+        }
+
+        footer p span {
+            color: var(--neon-blue);
+        }
+
+        /* RESPONSIVO */
+        @media(max-width: 768px) {
+            header { padding: 15px 20px; }
+            nav ul { display: none; }
+            .slide-content h2 { font-size: 2.2rem; }
+            .about-section { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABEÇALHO -->
+    <header>
+        <div class="logo-area">
+            <h1>RAION <span>JIU JITSU</span></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#sobre">A Academia</a></li>
+                <li><a href="#aulas">Modalidades</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- CARROSSEL DE SLIDES -->
+    <section class="slider-container" id="inicio">
+        <!-- Slide 1 -->
+        <div class="slide active" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(10,11,14,1)), url('https://images.unsplash.com/photo-1564419320461-687088b221ad?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;">
+            <div class="slide-content">
+                <h2>Disciplina, Honra e Eficiência</h2>
+                <p>Transforme seu corpo e sua mente com a metodologia avançada de Jiu-Jitsu sob a liderança do Prof. João Madureira.</p>
+                <a href="#contato" class="btn-neon">Agende sua Aula Experimental</a>
+            </div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(10,11,14,1)), url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;">
+            <div class="slide-content">
+                <h2>Comando e Prateado Neon</h2>
+                <p>Estrutura de ponta combinando a tradição da arte suave com um ambiente moderno de alta performance.</p>
+                <a href="#sobre" class="btn-neon">Conheça Nossa História</a>
+            </div>
+        </div>
+
+        <!-- Controles do Slider -->
+        <div class="slider-controls">
+            <span class="dot active" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+        </div>
+    </section>
+
+    <!-- BLOCOS DE DESTAQUE (ESTILO ENIGMA) -->
+    <div class="features-grid">
+        <div class="feature-box">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h3>Defesa Pessoal</h3>
+            <p>Técnicas reais e eficientes voltadas para situações do cotidiano e preservação da integridade física.</p>
+        </div>
+        <div class="feature-box">
+            <i class="fa-solid fa-medal"></i>
+            <h3>Alta Competição</h3>
+            <p>Treinamento focado em atletas que buscam pódios em campeonatos estaduais, nacionais e internacionais.</p>
+        </div>
+        <div class="feature-box">
+            <i class="fa-solid fa-bolt"></i>
+            <h3>Condicionamento</h3>
+            <p>Desenvolva força explosiva, resistência cardiovascular, flexibilidade e foco mental absoluto.</p>
+        </div>
+    </div>
+
+    <!-- SOBRE A ACADEMIA -->
+    <section class="about-section" id="sobre">
+        <div class="about-text">
+            <h2>Raion Jiu Jitsu Academy</h2>
+            <p>Inspirada na força, astúcia e imponência do leão, nossa academia nasceu com o propósito de formar não apenas grandes lutadores no tatame, mas cidadãos exemplares na sociedade.</p>
+            <p>Sob a supervisão técnica e direta do <strong>Prof. João Madureira</strong>, oferecemos um ambiente seguro, familiar e tecnicamente rigoroso para todas as idades e faixas.</p>
+            <a href="#contato" class="btn-neon" style="margin-top: 10px; display: inline-block;">Faça Parte da Equipe</a>
+        </div>
+        <div class="about-image">
+            <i class="fa-solid fa-paw"></i>
+            <h3 style="margin-top: 15px; color: #fff; letter-spacing: 2px;">FORÇA & HONRA</h3>
+        </div>
+    </section>
+
+    <!-- RODAPÉ -->
+    <footer id="contato">
+        <p>&copy; 2026 <span>Raion Jiu Jitsu Academy</span> &bull; Todos os direitos reservados.</p>
+        <p style="margin-top: 8px; color: var(--accent-silver);">Contato: contato@rjiujitsuacademy.com | Prof. João Madureira</p>
+    </footer>
+
+    <!-- SCRIPT DO CARROSSEL AUTOMÁTICO -->
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            slideIndex = (n + slides.length) % slides.length;
+            slides[slideIndex].classList.add('active');
+            dots[slideIndex].classList.add('active');
+        }
+
+        function nextSlide() {
+            showSlide(slideIndex + 1);
+        }
+
+        function currentSlide(n) {
+            showSlide(n);
+        }
+
+        // Troca automática de slide a cada 5 segundos
+        setInterval(nextSlide, 5000);
+    </script>
+</body>
+</html>
