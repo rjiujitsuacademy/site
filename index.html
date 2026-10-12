@@ -444,9 +444,54 @@ h1,h2,h3,.anton{font-family:'Anton', sans-serif; letter-spacing:0.02em; text-tra
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
+<script> /*
 function handleForm(e){e.preventDefault(); alert('OSS! 🦁 Sua solicitação foi enviada. Agora basta comparecer em nossa unidade nos horários de treino, mais informações chama a gente no Zap (31) 9 8807-3114'); e.target.reset(); return false;}
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click', e=>{const id=a.getAttribute('href'); if(id.length>1){e.preventDefault(); document.querySelector(id)?.scrollIntoView({behavior:'smooth'});}})});
+*/
+
+
+function handleForm(e) {
+    e.preventDefault();
+    
+    // Captura os valores dos campos do formulário
+    const inputs = e.target.querySelectorAll('input, select, textarea');
+    const nome = inputs[0].value;
+    const whatsapp = inputs[1].value;
+    const programa = inputs[2].value;
+    const idade = inputs[3].value || 'Não informada';
+    const mensagem = inputs[4].value || 'Nenhuma observação';
+
+    // Seu número de WhatsApp com DDD (código do país 55 + DDD 31 + número)
+    const meuNumero = "5531988073114";
+
+    // Monta o texto alinhado para o WhatsApp
+    const texto = `OSS! Professor João, gostaria de agendar uma aula experimental.%0a%0a` +
+                  `*Nome:* ${nome}%0a` +
+                  `*WhatsApp:* ${whatsapp}%0a` +
+                  `*Programa:* ${programa}%0a` +
+                  `*Idade:* ${idade}%0a` +
+                  `*Mensagem:* ${mensagem}`;
+
+    // Abre o WhatsApp com a mensagem pronta
+    window.open(`https://wa.me/${meuNumero}?text=${texto}`, '_blank');
+    
+    // Reseta o formulário
+    e.target.reset();
+    return false;
+}
+
+// Suporte para o menu suave
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        const id = a.getAttribute('href');
+        if (id.length > 1) {
+            e.preventDefault();
+            document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+});
+
+
 </script>
 </body>
 </html>
